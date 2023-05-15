@@ -13,7 +13,12 @@ class _ReviewExplorePageState extends State<ReviewExplorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('리뷰보기'),
+        backgroundColor: Colors.lightBlue,
+        title: const Text('리뷰보기',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 22
+        ),),
       ),
       drawer: ReviewFilter(),
       );

@@ -1,5 +1,3 @@
-import 'package:critiqo3/component/builder/category_button.dart';
-import 'package:critiqo3/component/builder/category_radio_button,dart.dart';
 import 'package:critiqo3/component/builder/review_input_field.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +13,17 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('리뷰작성'),
+        backgroundColor: Colors.lightBlue,
+        title: const Text('리뷰쓰기',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 22
+        ),),
       ),
       body:  Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
-            children: [
+            children: const [
               Expanded(
                   child: ReviewInputField()),
             ],

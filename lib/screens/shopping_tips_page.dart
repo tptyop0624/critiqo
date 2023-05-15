@@ -1,115 +1,44 @@
 import 'package:critiqo3/component/shopping_tips/shopping_tip_content.dart';
 import 'package:flutter/material.dart';
+import 'package:critiqo3/component/shopping_tips/Shopping_tips_card_list.dart';
 
 class ShoppingTipsPage extends StatefulWidget {
   const ShoppingTipsPage({Key? key}) : super(key: key);
+
 
   @override
   State<ShoppingTipsPage> createState() => _ShoppingTipsPageState();
 }
 
 class _ShoppingTipsPageState extends State<ShoppingTipsPage> {
-  // int _selectedPageInShoppingTips = 0;
-  // List<Widget> pagesInShoppingtips = [
-  //   const ShoppintTipsPage(),
-  //   const ShoppingTipContent(),
-  // ];
-  //
-  // void _pageMoveinShoppingtips(int index) {
-  //   setState(() {
-  //     _selectedPageInShoppingTips = index;
-  //   });
-  // }
+  final tipCardList = tipCard;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('쇼핑정보',style: TextStyle(fontSize: 25),),
+        title: const Text(
+          '쇼핑정보',
+          style: TextStyle(fontSize: 25),
+        ),
       ),
-      body: ListView(
-        children: [
-          TipCard(
-            title: 'Check site security before you ',
-            views: 100,
-            thumbnail: Image.asset(
-              'assets/images/pic/1755.jpg', // storage에 저장되는 썸네일 사진
-              fit: BoxFit.cover,
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary',
-          ),
-          TipCard(
-            title: 'Check tipping options at ',
-            views: 50,
-            thumbnail: Image.asset(
-              'assets/images/pic/a1.png',
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary summary summary summary summaryddddd summary summary summary summary summaryssssss',
-          ),
-          TipCard(
-            title: 'Check tipping options at checkout',
-            views: 50,
-            thumbnail: Image.asset(
-              'assets/images/pic/a1.png',
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary',
-          ),
-          TipCard(
-            title: 'Check tipping options at checkout',
-            views: 50,
-            thumbnail: Image.asset(
-              'assets/images/pic/a1.png',
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary',
-          ),
-          TipCard(
-            title: 'Check tipping options at checkout',
-            views: 50,
-            thumbnail: Image.asset(
-              'assets/images/pic/a1.png',
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary',
-          ),
-          TipCard(
-            title: 'Check tipping options at checkout',
-            views: 50,
-            thumbnail: Image.asset(
-              'assets/images/pic/a1.png',
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary',
-          ),
-          TipCard(
-            title: 'Check tipping options at checkout',
-            views: 50,
-            thumbnail: Image.asset(
-              'assets/images/pic/a1.png',
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary',
-          ),
-          TipCard(
-            title: 'Check tipping options at checkout',
-            views: 50,
-            thumbnail: Image.asset(
-              'assets/images/pic/a1.png',
-              width: 350,
-              height: 200,
-            ),
-            summary: 'summary',
-          ),
-        ],
+      body:ListView.builder(
+        itemCount: tipCardList.length,
+        itemBuilder: (context, index) => TipCard(
+          title: tipCardList[index]['title'],
+          views: tipCardList[index]['views'],
+          thumbnail: tipCardList[index]['thumbnail'] as Widget,
+          summary: tipCardList[index]['summary'],
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ShoppingTipContent(
+                  imageIndex: index + 1,
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -118,8 +47,9 @@ class _ShoppingTipsPageState extends State<ShoppingTipsPage> {
 class TipCard extends StatelessWidget {
   final String title;
   final int views;
-  final Image thumbnail;
+  final Widget thumbnail;
   final String summary;
+  final VoidCallback? onTap;
 
   const TipCard({
     Key? key,
@@ -127,46 +57,48 @@ class TipCard extends StatelessWidget {
     required this.views,
     required this.thumbnail,
     required this.summary,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 12.0,
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
-          side: const BorderSide(
-              color: Colors.black26
-          )
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            thumbnail,
-            SizedBox(height: 15),
-            Row(
-              children: [
-                Text(
-                  title,style: TextStyle(fontSize: 20),
-                ),
-                const Spacer(),
-                Text(
-                  '$views views',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
+          side: const BorderSide(color: Colors.black26),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              thumbnail,
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(fontSize: 20),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(summary)
-          ],
+                  const Spacer(),
+                  Text(
+                    '$views views',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(summary),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
